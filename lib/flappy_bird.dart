@@ -76,7 +76,35 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
               ],
             ),
           ),
-          Expanded(child: Container(color: Colors.green)),
+          SizedBox(
+            height: 20,
+            child: Container(color: Colors.green),
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.brown,
+              child: Row(children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("0"),
+                      Text("S C O R E"),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("0"),
+                      Text(" B E S T S C O R E"),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          ),
         ],
       ),
     ));
