@@ -20,10 +20,10 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
   bool isGameStarted = false;
   static double barrierXOne = 2.5;
   double barrierXTwo = barrierXOne + 1.75;
+  int score = 0;
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint(' BARRIER 1:== $barrierXOne BARRIER 2:== $barrierXTwo');
     return Scaffold(
         body: GestureDetector(
       onTap: () {
@@ -91,8 +91,8 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text("0"),
+                    children: [
+                      Text("$score"),
                       Text("S C O R E"),
                     ],
                   ),
@@ -114,6 +114,23 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
     ));
   }
 
+  bool checkIsGameOver() {
+    return dashYAxis > 1;
+  }
+
+  void resetGame() {
+    setState(() {
+      isGameStarted = false;
+      dashYAxis = 0;
+      time = 0;
+      height = 0;
+      initialHeight = dashYAxis;
+      barrierXOne = 2.5;
+      barrierXTwo = barrierXOne + 1.75;
+      score = 0;
+    });
+  }
+
   void startGame() {
     initialHeight = dashYAxis;
     isGameStarted = true;
@@ -124,6 +141,7 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
         height = -4.9 * time * time + 2.8 * time;
         setState(
           () {
+            score = score + 1;
             barrierXOne -= 0.05;
             barrierXTwo -= 0.05;
             if (barrierXOne > 2) {
@@ -139,6 +157,11 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
             dashYAxis = initialHeight - height;
           },
         );
+        if (checkIsGameOver()) {
+          timer.cancel();
+          isGameStarted = false;
+          showGameOver();
+        }
         if (barrierXOne > 2) {
           barrierXOne -= 3.5;
         } else {
@@ -179,6 +202,27 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
           timer.cancel();
           isGameStarted = false;
         }
+      },
+    );
+  }
+
+  void showGameOver() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Game Over'),
+          content: Text('Your Score is $score'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Restart'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                resetGame();
+              },
+            ),
+          ],
+        );
       },
     );
   }
