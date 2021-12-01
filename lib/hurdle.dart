@@ -1,15 +1,21 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Hurdle extends StatelessWidget {
-  final double height;
-
-  const Hurdle({Key? key, required this.height}) : super(key: key);
+  const Hurdle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    const List<double> hurdleHeight = [40.0, 120.0, 60.0, 200.0];
+
+    double getHurdleHeight() {
+      return hurdleHeight[Random().nextInt(hurdleHeight.length)];
+    }
+
     return Container(
       width: 40,
-      height: height,
+      height: 100,
       decoration: BoxDecoration(
         color: Colors.green.shade500,
       ),

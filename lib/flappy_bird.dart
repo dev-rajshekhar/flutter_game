@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_game/dash.dart';
@@ -17,13 +18,16 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
   double height = 0;
   double initialHeight = dashYAxis;
   bool isGameStarted = false;
-  static double barrierXOne = -2.5;
+  static double barrierXOne = 2.5;
   double barrierXTwo = barrierXOne + 1.75;
+
   @override
   Widget build(BuildContext context) {
+    // debugPrint(' BARRIER 1:== $barrierXOne BARRIER 2:== $barrierXTwo');
     return Scaffold(
         body: GestureDetector(
       onTap: () {
+        debugPrint('TAP $isGameStarted  $dashYAxis');
         if (isGameStarted) {
           jump();
         } else {
@@ -56,22 +60,22 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 0),
                   alignment: Alignment(barrierXOne, -1),
-                  child: const Hurdle(height: 100),
+                  child: Hurdle(),
                 ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 0),
                   alignment: Alignment(barrierXOne, 1),
-                  child: const Hurdle(height: 130),
+                  child: Hurdle(),
                 ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 0),
                   alignment: Alignment(barrierXTwo, -1),
-                  child: const Hurdle(height: 140),
+                  child: Hurdle(),
                 ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 0),
                   alignment: Alignment(barrierXTwo, 1),
-                  child: const Hurdle(height: 60),
+                  child: Hurdle(),
                 ),
               ],
             ),
@@ -98,7 +102,7 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text("0"),
-                      Text(" B E S T S C O R E"),
+                      Text(" B E S T  S C O R E"),
                     ],
                   ),
                 ),
@@ -120,6 +124,8 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
         height = -4.9 * time * time + 2.8 * time;
         setState(
           () {
+            barrierXOne -= 0.05;
+            barrierXTwo -= 0.05;
             if (barrierXOne > 2) {
               barrierXOne -= 3.5;
             } else {
@@ -133,32 +139,41 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
             dashYAxis = initialHeight - height;
           },
         );
-
-        if (barrierXOne >= -0.25 && barrierXOne <= 0.25) {
-          if (dashYAxis <= -0.2 || dashYAxis >= 0.6) {
-            timer.cancel();
-            // scoreTimer.cancel();
-            isGameStarted = false;
-            // if (score > highScore) {
-            //   highScore = score;
-            //   await prefs.setInt(HIGH_SCORE_KEY, highScore);
-            // }
-            setState(() {});
-            // await showLoseDialog();
-          }
+        if (barrierXOne > 2) {
+          barrierXOne -= 3.5;
+        } else {
+          barrierXOne += 0.04;
         }
-        if (barrierXTwo >= -0.25 && barrierXTwo <= 0.25) {
-          if (dashYAxis <= -0.6 || dashYAxis >= 0.2) {
-            timer.cancel();
-            // scoreTimer.cancel();
-            isGameStarted = false;
-            // if (score > highScore) {
-            //   highScore = score;
-            // }
-            setState(() {});
-            // showLoseDialog();
-          }
+        if (barrierXTwo > 2) {
+          barrierXTwo -= 3.5;
+        } else {
+          barrierXTwo += 0.04;
         }
+        // if (barrierXOne >= -0.25 && barrierXOne <= 0.25) {
+        //   if (dashYAxis <= -0.2 || dashYAxis >= 0.6) {
+        //     timer.cancel();
+        //     // scoreTimer.cancel();
+        //     isGameStarted = false;
+        //     // if (score > highScore) {
+        //     //   highScore = score;
+        //     //   await prefs.setInt(HIGH_SCORE_KEY, highScore);
+        //     // }
+        //     setState(() {});
+        //     // await showLoseDialog();
+        //   }
+        // }
+        // if (barrierXTwo >= -0.25 && barrierXTwo <= 0.25) {
+        //   if (dashYAxis <= -0.6 || dashYAxis >= 0.2) {
+        //     timer.cancel();
+        //     // scoreTimer.cancel();
+        //     isGameStarted = false;
+        //     // if (score > highScore) {
+        //     //   highScore = score;
+        //     // }
+        //     setState(() {});
+        //     // showLoseDialog();
+        //   }
+        // }
 
         if (dashYAxis > 1) {
           timer.cancel();
