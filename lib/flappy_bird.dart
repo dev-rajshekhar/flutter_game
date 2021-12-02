@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_game/dash.dart';
@@ -211,11 +210,11 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Game Over'),
+          title: const Text('Game Over'),
           content: Text('Your Score is $score'),
           actions: <Widget>[
-            FlatButton(
-              child: Text('Restart'),
+            MaterialButton(
+              child: const Text('Restart'),
               onPressed: () {
                 Navigator.of(context).pop();
                 resetGame();
