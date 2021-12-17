@@ -56,11 +56,11 @@ class _FlappyBirdGameState extends State<FlappyBirdGame> {
                         )
                       : null,
                 ),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 0),
-                  alignment: Alignment(barrierXOne, -1),
-                  child: Hurdle(),
-                ),
+                // AnimatedContainer(
+                //   duration: const Duration(milliseconds: 0),
+                //   alignment: Alignment(barrierXOne, -1),
+                //   child: Hurdle(),
+                // ),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 0),
                   alignment: Alignment(barrierXOne, 1),

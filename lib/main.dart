@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_game/flappy_bird.dart';
 import 'package:flutter_game/paint_game.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -39,6 +42,13 @@ class MyHomePage extends StatelessWidget {
                 child: ListTile(
                   title: Text(gameList[index]),
                   onTap: () {
+                    // FirebaseFirestore.instance
+                    //     .collection("games")
+                    //     .doc(gameList[index])
+                    //     .set({
+                    //   "name": gameList[index],
+                    //   "played": FieldValue.increment(1),
+                    // });
                     var widget = gameList[index] == "Flappy Bird"
                         ? const FlappyBirdGame()
                         : const PaintGame();
