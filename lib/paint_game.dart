@@ -35,13 +35,17 @@ class _PaintGameState extends State<PaintGame> {
     onPanUpdate(DragUpdateDetails details) {
       setState(() {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
-        points.add(PointHolder(
-            points: renderBox.globalToLocal(details.localPosition),
-            paint: Paint()
-              ..strokeCap = strokeType
-              ..isAntiAlias = true
-              ..color = selectedColor.withOpacity(opacity)
-              ..strokeWidth = strokeWidth));
+
+        if (details.localPosition.dy <
+            MediaQuery.of(context).size.height * 0.6) {
+          points.add(PointHolder(
+              points: renderBox.globalToLocal(details.localPosition),
+              paint: Paint()
+                ..strokeCap = strokeType
+                ..isAntiAlias = true
+                ..color = selectedColor.withOpacity(opacity)
+                ..strokeWidth = strokeWidth));
+        }
       });
     }
 
