@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_game/dash.dart';
+import 'package:flutter_game/flappy_bird_game/dash.dart';
 import 'package:flutter_game/hurdle.dart';
 
 class FlappyBirdGame extends StatefulWidget {
