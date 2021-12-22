@@ -1,7 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_game/flappy_bird.dart';
+import 'package:flutter_game/paint/paint_game.dart';
 
-void main() {
+import 'flappy_bird_game/flappy_bird.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -17,12 +22,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const FlappyBirdGame(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
+  static var gameList = ["Flappy Bird", "Paint"];
   const MyHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,16 +37,30 @@ class MyHomePage extends StatelessWidget {
           title: const Text('Flutter Game'),
         ),
         body: ListView.builder(
-            itemCount: 1,
+            itemCount: gameList.length,
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 child: ListTile(
-                  title: const Text('Flappy Bird'),
+                  title: Text(gameList[index]),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return const FlappyBirdGame();
-                    }));
+                    // FirebaseFirestore.instance
+                    //     .collection("games")
+                    //     .doc(gameList[index])
+                    //     .set({
+                    //   "name": gameList[index],
+                    //   "played": FieldValue.increment(1),
+                    // });
+                    var widget = gameList[index] == "Flappy Bird"
+                        ? const FlappyBirdGame()
+                        : const PaintGame();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return widget;
+                        },
+                      ),
+                    );
                   },
                 ),
               );
